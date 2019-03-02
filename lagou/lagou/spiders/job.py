@@ -10,7 +10,7 @@ from lagou.items import LagouItem
 
 class JobSpider(scrapy.Spider):
 	name = 'job'
-	PAGES = 3
+	PAGES = 20
 	allowed_domains = ['lagou.com']
 	base_url = 'https://www.lagou.com/jobs/positionAjax.json?'
 	url = 'https://www.lagou.com/jobs/list_.net?'
@@ -39,9 +39,11 @@ class JobSpider(scrapy.Spider):
 		item = LagouItem()
 		try:
 			for i in r.get('content').get('positionResult').get('result'):
+			
 				item['name'] = i.get('companyFullName')
-				item['ctype'] = i.get('firstType')
-		except e:
-			print(e)
+				item['ftype'] = i.get('firstType')
+				yield item
+		except:
+			print("error")
 			
 		
